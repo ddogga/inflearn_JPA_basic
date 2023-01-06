@@ -17,12 +17,19 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 회원 수정
-            // JPA로 찾은 객체는 JPA가 관리하므로 변경을 감지
-            Member findMember = em.find(Member.class, 1L);
-            // set함수로 변경한 것을 감지하여 db에 update 쿼리를 날림
-            findMember.setName("HelloJPA");
 
+            //비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
+
+            //영속
+            System.out.println("=== BEFORE ===");
+            //이때 db에 저장되는 것이 아님.
+            em.persist(member);
+            System.out.println("=== AFTER ===");
+
+            //쿼리는 commit 시점에서 날라감.
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
