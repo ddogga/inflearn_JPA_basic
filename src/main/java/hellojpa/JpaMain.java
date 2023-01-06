@@ -20,7 +20,7 @@ public class JpaMain {
 
             //비영속
             Member member = new Member();
-            member.setId(100L);
+            member.setId(101L);
             member.setName("HelloJPA");
 
             //영속
@@ -28,6 +28,13 @@ public class JpaMain {
             //이때 db에 저장되는 것이 아님.
             em.persist(member);
             System.out.println("=== AFTER ===");
+
+            Member findMember = em.find(Member.class, 101L);
+
+            System.out.println("findMember.id = " + findMember.getId());
+            System.out.println("findMember.name = " + findMember.getName());
+
+
 
             //쿼리는 commit 시점에서 날라감.
             tx.commit();
