@@ -18,25 +18,20 @@ public class JpaMain {
 
         try {
 
-            //비영속
-            Member member = new Member();
-            member.setId(101L);
-            member.setName("HelloJPA");
 
             //영속
-            System.out.println("=== BEFORE ===");
-            //이때 db에 저장되는 것이 아님.
-            em.persist(member);
-            System.out.println("=== AFTER ===");
 
-            Member findMember = em.find(Member.class, 101L);
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
 
-            System.out.println("findMember.id = " + findMember.getId());
-            System.out.println("findMember.name = " + findMember.getName());
+            em.persist(member1);
+            em.persist(member2);
 
 
+            //출력이 되고 쿼리가 날라감.
+            System.out.println("==========================");
 
-            //쿼리는 commit 시점에서 날라감.
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
