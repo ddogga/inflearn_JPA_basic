@@ -19,16 +19,20 @@ public class JpaMain {
 
         try {
 
-            //팀 저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
+
 
             //회원 저장
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);//단방향 연관관계 설정, 참조 저장
             em.persist(member);
+
+            //팀 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            //연관관계 주인이 아닌 Team에만 member값 입력
+            team.getMembers().add(member);
+            em.persist(team);
+
 
             //쿼리 바로 실행
             em.flush();
