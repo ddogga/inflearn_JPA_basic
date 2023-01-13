@@ -30,7 +30,10 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Movie findMovie = em.find(Movie.class, movie.getId());
+            //구현 클래스마다 테이블 전략 사용시
+            //부모 타입으로 조회할 경우
+            Item item = em.find(Item.class, movie.getId());
+            System.out.println("item = " + item);
 
 
             tx.commit();

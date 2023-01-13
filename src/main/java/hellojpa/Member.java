@@ -29,6 +29,8 @@ public class Member {
     private List<MemberProduct> memberProducts = new ArrayList<>();
 
 
+
+
     public Member() {}
 
     public Long getId() {
