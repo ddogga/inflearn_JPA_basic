@@ -20,15 +20,14 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
+            Member member = em.find(Member.class,1L);
 
-            em.persist(member);
+            //team을 사용하는 경우와 사용하지 않는 경우
+            //사용할 경우 find에서 함께 조회
+            //사용하지 않을경우 team을 조회하지 않도록 최적화 하는 것이 좋음.
+            printMember(member);
 
-            em.flush();
-            em.clear();
+//            printMemberAndTeam(member);
 
             tx.commit();
 
@@ -40,5 +39,15 @@ public class JpaMain {
 
         emf.close();
 
+    }
+
+    public static void printMember(Member member) {
+        System.out.println("회원 이름: " + member.getUsername());
+    }
+
+    public static void printMemberAndTeam(Member member) {
+        System.out.println("회원 이름: " + member.getUsername());
+        Team team = member.getTeam();
+        System.out.println("소속팀: " + team.getName());
     }
 }
