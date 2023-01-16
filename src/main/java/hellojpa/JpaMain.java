@@ -11,7 +11,6 @@ public class JpaMain {
 
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-        // 클라이언트에서 데이터 변경 요청이 들어 올때 마다 생성되고 소멸됨
         EntityManager em = emf.createEntityManager();
 
 
@@ -20,14 +19,20 @@ public class JpaMain {
 
         try {
 
-            Member member = em.find(Member.class,1L);
+            Member member = new Member();
+            member.setUsername("hello");
 
-            //team을 사용하는 경우와 사용하지 않는 경우
-            //사용할 경우 find에서 함께 조회
-            //사용하지 않을경우 team을 조회하지 않도록 최적화 하는 것이 좋음.
-            printMember(member);
+            em.persist(member);
 
-//            printMemberAndTeam(member);
+            em.flush();
+            em.clear();
+
+            //
+//            Member findMember = em.find(Member.class, member.getId());
+            Member findMember = em.getReference(Member.class, member.getId());
+            System.out.println("findMember.getClass() = " + findMember.getClass());
+            System.out.println("findMember.getId() = " + findMember.getId());
+            System.out.println("findMember.getUsername() = " + findMember.getUsername());
 
             tx.commit();
 
@@ -41,13 +46,4 @@ public class JpaMain {
 
     }
 
-    public static void printMember(Member member) {
-        System.out.println("회원 이름: " + member.getUsername());
-    }
-
-    public static void printMemberAndTeam(Member member) {
-        System.out.println("회원 이름: " + member.getUsername());
-        Team team = member.getTeam();
-        System.out.println("소속팀: " + team.getName());
-    }
 }
