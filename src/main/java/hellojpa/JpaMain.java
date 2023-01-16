@@ -23,18 +23,30 @@ public class JpaMain {
             member1.setUsername("hello1");
             em.persist(member1);
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            Member m1 = em.find(Member.class, member1.getId());
-            Member m2 = em.getReference(Member.class,member2.getId());
+            //find로 실제 엔티티를 먼저 조회할 경우
 
-            System.out.println("m1 == m2 = " + (m1 instanceof Member));
-            System.out.println("m1 == m2 = " + (m2 instanceof Member));
+//            Member m1 = em.find(Member.class, member1.getId());
+//            System.out.println("m1.getClass() = " + m1.getClass());
+//
+//            Member reference = em.getReference(Member.class, member1.getId());
+//            System.out.println("reference.getClass() = " + reference.getClass());
+//
+//            System.out.println("a == a: " + (m1 == reference));
+
+            //getReference로 프록시 객체를 먼저 조회할 경우
+
+
+            Member refMember = em.getReference(Member.class, member1.getId());
+            System.out.println("refMember = " + refMember.getClass());
+
+            Member findMember = em.find(Member.class, member1.getId());
+            System.out.println("findMember.getClass() = " + findMember.getClass());
+
+            System.out.println("refMember == findMember: " + (refMember == findMember));
 
             tx.commit();
 
