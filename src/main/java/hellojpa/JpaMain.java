@@ -27,31 +27,20 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            //find로 실제 엔티티를 먼저 조회할 경우
-
-//            Member m1 = em.find(Member.class, member1.getId());
-//            System.out.println("m1.getClass() = " + m1.getClass());
-//
-//            Member reference = em.getReference(Member.class, member1.getId());
-//            System.out.println("reference.getClass() = " + reference.getClass());
-//
-//            System.out.println("a == a: " + (m1 == reference));
-
-            //getReference로 프록시 객체를 먼저 조회할 경우
-
 
             Member refMember = em.getReference(Member.class, member1.getId());
             System.out.println("refMember = " + refMember.getClass());
 
-            Member findMember = em.find(Member.class, member1.getId());
-            System.out.println("findMember.getClass() = " + findMember.getClass());
+            //em.clear();
+            em.detach(refMember);
 
-            System.out.println("refMember == findMember: " + (refMember == findMember));
+            refMember.getUsername();
 
             tx.commit();
 
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
