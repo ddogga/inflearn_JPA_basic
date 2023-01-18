@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 
-public class Member extends BaseEntity{
+public class Member {
     @Id
     @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -17,24 +17,13 @@ public class Member extends BaseEntity{
     @Column(name = "USERNAME")
     private String username;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    //기간
+    @Embedded
+    private Period workPeriod;
 
-//    @OneToOne
-//    @JoinColumn(name = "LOCKER_ID")
-//    private Locker locker;
-
-
-//    @ManyToMany
-//    @JoinTable(name = "MEMBER_PRODUCT")
-//    private List<Product> products = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member")
-//    private List<MemberProduct> memberProducts = new ArrayList<>();
-
-
+    //주소
+    @Embedded
+    private Address homeAddress;
 
 
     public Member() {}
@@ -55,12 +44,19 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
-
-    public Team getTeam() {
-        return team;
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }
