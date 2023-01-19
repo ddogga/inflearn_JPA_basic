@@ -21,36 +21,15 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("homeCity","street","1000"));
-
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("족발");
-            member.getFavoriteFoods().add("피자");
-
-            member.getAddressHistory().add(new Address("old1","street","1000"));
-            member.getAddressHistory().add(new Address("old2","street","1000"));
-
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("============================= START =============================");
-            Member findMember = em.find(Member.class, member.getId());
-
-            List<Address> addressHistory = findMember.getAddressHistory();
-            for (Address address : addressHistory) {
-                System.out.println("address.getCity() = " + address.getCity());
-            }
-
-            Set<String> favoriteFoods = findMember.getFavoriteFoods();
-            for (String favoriteFood : favoriteFoods) {
-                System.out.println("favoriteFood = " + favoriteFood);
+            String jpql = "select m From Member m where m.username like '%kim%'";
+            List<Member> result = em.createQuery(jpql,Member.class).getResultList();
+            
+            for (Member member : result) {
+                System.out.println("member = " + member);
             }
 
             tx.commit();
+
 
         } catch (Exception e) {
             tx.rollback();
