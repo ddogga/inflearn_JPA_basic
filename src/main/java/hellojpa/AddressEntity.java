@@ -21,6 +21,9 @@ public class AddressEntity {
         this.address = address;
     }
 
+    private AddressEntity() {
+    }
+
     public Long getId() {
         return id;
     }
